@@ -211,6 +211,8 @@ const Masonry = React.forwardRef(function Masonry(inProps, ref) {
 
   const classes = useUtilityClasses(ownerState);
 
+  const [loading, setLoading] = React.useState(true);
+
   const handleResize = (masonryChildren) => {
     if (!masonryRef.current || !masonryChildren || masonryChildren.length === 0) {
       return;
@@ -273,6 +275,7 @@ const Masonry = React.forwardRef(function Masonry(inProps, ref) {
       ReactDOM.flushSync(() => {
         setMaxColumnHeight(Math.max(...columnHeights));
         setNumberOfLineBreaks(currentNumberOfColumns > 0 ? currentNumberOfColumns - 1 : 0);
+        setLoading(false);
       });
     }
   };
@@ -317,6 +320,7 @@ const Masonry = React.forwardRef(function Masonry(inProps, ref) {
     ));
 
   return (
+    loading ? <div>Loading...</div> :
     <MasonryRoot
       as={component}
       className={clsx(classes.root, className)}
